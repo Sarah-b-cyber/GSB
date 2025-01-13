@@ -21,7 +21,7 @@
  */
 function estConnecte()
 {
-    return isset($_SESSION['idVisiteur']);
+    return isset($_SESSION['idVisiteur']) || isset($_SESSION['idComptable']);
 }
 
 /**
@@ -33,9 +33,24 @@ function estConnecte()
  *
  * @return null
  */
-function connecter($idVisiteur, $nom, $prenom)
+function connecterV($idVisiteur, $nom, $prenom)
 {
     $_SESSION['idVisiteur'] = $idVisiteur;
+    $_SESSION['nom'] = $nom;
+    $_SESSION['prenom'] = $prenom;
+}
+/**
+ * Enregistre dans une variable session les infos d'un comptable
+ *
+ * @param String $idVisiteur ID du visiteur
+ * @param String $nom        Nom du visiteur
+ * @param String $prenom     Prénom du visiteur
+ *
+ * @return null
+ */
+function connecterC($idComptable, $nom, $prenom)
+{
+    $_SESSION['idComptable'] = $idComptable;
     $_SESSION['nom'] = $nom;
     $_SESSION['prenom'] = $prenom;
 }
@@ -95,6 +110,41 @@ function getMois($date)
     }
     return $annee . $mois;
 }
+
+/**
+ * Retourne les 12 mois precedents
+ *
+ * @param String $date au format  jj/mm/aaaa
+ *
+ * @return String Mois au format aaaamm
+ */
+ function getDerniers12Mois($date) {
+    $moisAnnee = getMois($date);
+
+    // Extraire l'année et le mois
+    $annee = substr($moisAnnee, 0, 4);
+    $mois = substr($moisAnnee, 4, 2);
+
+    // Initialiser un tableau pour stocker les mois
+    $listemois = [];
+
+    // Boucle sur les 12 derniers mois
+    for (k = 1; k < = 12; k++) {
+        // Calculer le mois précédent
+        $mois--;
+        if ($mois == 1) {
+            $mois = 12;
+            $annee--;
+        }
+
+        // Ajouter le mois au tableau des résultats
+        $moisDerniers[] = $annee . '-' . $moisFormat;
+    }
+
+    // Inverser le tableau pour obtenir les mois du plus récent au plus ancien
+    return array_reverse($moisDerniers);
+}
+
 
 /* gestion des erreurs */
 
@@ -247,3 +297,4 @@ function nbErreurs()
         return count($_REQUEST['erreurs']);
     }
 }
+

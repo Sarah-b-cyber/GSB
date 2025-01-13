@@ -15,7 +15,12 @@
  */
 
 if ($estConnecte) {
-    include 'vues/v_accueil.php';
+    if (isset($_SESSION['idVisiteur'])){
+        include 'vues/v_accueilV.php';
+     }
+     elseif (isset($_SESSION['idComptable'])){
+        include 'vues/v_accueilC.php';
+     }
 } else {
     include 'vues/v_connexion.php';
 }
