@@ -103,6 +103,29 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }
+
+    /**
+     * Retourne la liste des  visiteurs
+     *
+     * @param String $nom nom du visiteur
+     * @param String $prenom  prenom du visiteur
+     *
+     *
+     * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
+     */
+    public function getLesVisiteurs()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+            . 'visiteur.prenom AS prenom '
+            . 'FROM visiteur '
+            . 'ORDER BY visiteur.nom asc'
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+
+
     /**
      * Retourne les informations d'un comptable
      *
@@ -508,4 +531,28 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
+/**
+     * Verifie la fiche frais
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     * @param String $etat       Nouvel état de la fiche de frais
+     *
+     * @return null
+     */
+    public function verifFicheFrais($idVisiteur, $mois)
+{
+    $requetePrepare = PdoGSB::$monPdo->prepare(
+        'SELECT ficheFrais.mois 
+         FROM ficheFrais 
+         WHERE ficheFrais.mois = :unMois 
+         AND ficheFrais.idVisiteur = :unIdVisiteur'
+    );
+
+    $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+    $requetePrepare->execute();
+
+    return (bool) $requetePrepare->fetch(); // Retourne true si un résultat est trouvé, sinon false
+}
 }

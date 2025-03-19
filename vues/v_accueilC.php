@@ -25,7 +25,7 @@
     <div class="row">
     <div class="col-md-12" style="color:white">
         <div class="panel panel-primary"style="border-color:pink">
-            <div class="panel-heading" style="background-color: pink ; border-color: pink">
+            <div class="panel-heading" style="background-color: red ; border-color: red">
                 <h3 class="panel-title">
                     <span class="glyphicon glyphicon-bookmark"></span>
                     Navigation
@@ -34,12 +34,12 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
-                        <a href="index.php?uc=validerFr3ais&action=selectionnerVisiteur"
-                           class="btn btn-success btn-lg" role="button"style="background-color:lightblue;color: white ; border-color: lightblue">
+                        <a href="index.php?uc=validerFrais&action=selectionnerVisiteur"
+                           class="btn btn-success btn-lg" role="button"style="background-color: gray ;color: white ; border-color:gray ">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Valider la fiche de frais</a>
                         <a href="index.php?uc=payerFrais&action="
-                           class="btn btn-primary btn-lg" role="button"style="background-color:lightblue;color: white ; border-color: lightblue">
+                           class="btn btn-primary btn-lg" role="button"style="background-color:gray ;color: white ; border-color:gray ">
                             <span class="glyphicon glyphicon-list-alt"style="color:white"></span>
                             <br>Suivre le paiment des fiches de frais</a>
                     </div>

@@ -118,32 +118,36 @@ function getMois($date)
  *
  * @return String Mois au format aaaamm
  */
- function getDerniers12Mois($date) {
-    $moisAnnee = getMois($date);
-
+function getDerniers12Mois($mois) {
     // Extraire l'année et le mois
-    $annee = substr($moisAnnee, 0, 4);
-    $mois = substr($moisAnnee, 4, 2);
+    $numAnnee = (int)substr($mois, 0, 4);
+    $numMois = (int)substr($mois, 4, 2);
 
     // Initialiser un tableau pour stocker les mois
-    $listemois = [];
+    $listemois = array();
 
     // Boucle sur les 12 derniers mois
-    for (k = 1; k < = 12; k++) {
-        // Calculer le mois précédent
-        $mois--;
-        if ($mois == 1) {
-            $mois = 12;
-            $annee--;
-        }
+    for ($i = 0; $i < 12; $i++) {
+        // Formater le mois avec deux chiffres
+        $listemois[$i] = [
+            'mois' => $numAnnee . str_pad($numMois, 2, '0', STR_PAD_LEFT), // Format "YYYYMM"
+            'numAnnee' => $numAnnee,
+            'numMois' => str_pad($numMois, 2, '0', STR_PAD_LEFT) // Format "MM"
+        ];
 
-        // Ajouter le mois au tableau des résultats
-        $moisDerniers[] = $annee . '-' . $moisFormat;
+        // Décrémenter le mois
+        $numMois--;
+
+        // Si on passe en dessous de janvier, revenir à décembre de l'année précédente
+        if ($numMois == 0) {
+            $numMois = 12;
+            $numAnnee--;
+        }
     }
 
-    // Inverser le tableau pour obtenir les mois du plus récent au plus ancien
-    return array_reverse($moisDerniers);
+    return $listemois;
 }
+
 
 
 /* gestion des erreurs */
