@@ -18,12 +18,12 @@
 <div class="row">
     <div class="col-md-6">
         <h3>Sélectionner un visiteur :</h3>
-        <form action="index.php?uc=validerFrais&action=detailFicheFrais" method="post" role="form">
+        <form action="index.php?uc=validerFrais&action=validerFicheFrais" method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteurs" accesskey="n">Visiteur :</label>
                 <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
                     <?php
-                    foreach ($listeVisiteur as $unVisiteur) {
+                    foreach ($lesVisiteurs as $unVisiteur) {
                         $idVisiteur = $unVisiteur['id'];
                         $nomVisiteur = $unVisiteur['nom'];
                         $prenomVisiteur = $unVisiteur['prenom'];
@@ -45,7 +45,7 @@
                 <label for="lstMois" accesskey="n">Mois :</label>
                 <select id="lstMois" name="lstMois" class="form-control">
                     <?php
-                      foreach ($listeMois as $unMois) {
+                      foreach ($lesMois as $unMois) {
                         $mois = $unMois['mois'];
                         $numAnnee = $unMois['numAnnee'];
                         $numMois = $unMois['numMois'];

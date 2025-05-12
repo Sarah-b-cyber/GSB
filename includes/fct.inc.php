@@ -161,6 +161,7 @@ function getDerniers12Mois($mois) {
  */
 function estEntierPositif($valeur)
 {
+    /** @var int $valeur */
     return preg_match('/[^0-9]/', $valeur) == 0;
 }
 

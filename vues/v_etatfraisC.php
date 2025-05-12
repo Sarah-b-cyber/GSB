@@ -21,7 +21,7 @@
     <h3>Eléments forfaitisés</h3>
     <div class="col-md-4">
         <form method="post" 
-              action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
+              action="index.php?uc=validerFrais&action=ModifierFraisForfait" 
               role="form">
             <fieldset>       
                 <?php
@@ -31,17 +31,18 @@
                     $quantite = $unFrais['quantite']; ?>
                     <div class="form-group">
                         <label for="idFrais"><?php echo $libelle ?></label>
+                        <label for="lstVisiteurs"></label>
                         <input type="text" id="idFrais" 
                                name="lesFrais[<?php echo $idFrais ?>]"
                                size="10" maxlength="5" 
                                value="<?php echo $quantite ?>" 
-                               class="form-control">
+                               class="form-control">     
                     </div>
                     <?php
                 }
                 ?>
-                <button class="btn btn-success" type="submit">Corriger</button>
-                <button class="btn btn-danger" type="reset">Réinitialisé</button>
+                <input class="btn btn-success" id="corrigerFraisForfait" name="corrigerFraisForfait"  value= "Corriger" type="submit">
+                <input class="btn btn-danger" id="reinitialiserFraisForfait" name="reinitialiserFraisForfait" value= "Réinitialiser" type="reset">
             </fieldset>
         </form>
     </div>

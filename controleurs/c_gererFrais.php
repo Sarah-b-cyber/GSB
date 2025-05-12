@@ -19,13 +19,16 @@ $mois = getMois(date('d/m/Y'));
 $numAnnee = substr($mois, 0, 4);
 $numMois = substr($mois, 4, 2);
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_URL);
+
 switch ($action) {
+
 case 'saisirFrais':
     if ($pdo->estPremierFraisMois($idVisiteur, $mois)) {
         $pdo->creeNouvellesLignesFrais($idVisiteur, $mois);
     }
     break;
-    case 'validerMajFraisForfait':
+
+ case 'validerMajFraisForfait':
         $lesFrais = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     
         if (!isset($lesFrais['lesFrais']) || !is_array($lesFrais['lesFrais'])) {
@@ -43,6 +46,7 @@ case 'saisirFrais':
             include 'vues/v_erreurs.php';
         }
         break;
+
 case 'validerCreationFrais':
     $dateFrais = filter_input(INPUT_POST, 'dateFrais', FILTER_SANITIZE_URL);
     $libelle = filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_URL);
@@ -61,6 +65,7 @@ case 'validerCreationFrais':
         );
     }
     break;
+    
 case 'supprimerFrais':
     $idFrais = filter_input(INPUT_GET, 'idFrais', FILTER_SANITIZE_URL);
     $pdo->supprimerFraisHorsForfait($idFrais);
