@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-md-6">
         <h3>Sélectionner un visiteur :</h3>
-        <form action="index.php?uc=validerFrais&action=validerFicheFrais" method="post" role="form">
+        <form action="index.php?uc=suivrePaiement&action=valider" method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteurs" accesskey="n">Visiteur :</label>
                 <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">

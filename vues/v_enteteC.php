@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Vue Entête
  *
@@ -44,24 +44,23 @@
                     <div class="col-md-8">
                         <ul class="nav nav-pills pull-right" role="tablist">
                             <li <?php if (!$uc || $uc == 'accueil') { ?>class="active" <?php } ?>>
-                                <a href="index.php" style="background-color: red ; border-color: red">
+                                <a href="index.php" style="background-color: #1e3a5f; color: white; border-color: #1e3a5f;">
                                     <span class="glyphicon glyphicon-home"></span>
                                     Accueil
                                 </a>
                             </li>
                             <li <?php if ($uc == 'valider la fiche de frais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=validerFrais&action=selectionnerVisiteur" style="color:red">
+                                <a href="index.php?uc=validerFrais&action=selectionnerVisiteur" style="color: #2a6f97;">
                                     Valider les fiches de frais
                                 </a>
                             </li>
                             <li <?php if ($uc == 'suivre le paiement des fiches frais') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=payerFrais&action="style="color:red">
+                                <a href="index.php?uc=suivrePaiement&action=selectionnerVisiteur" style="color: #2a6f97;">
                                     € Suivre le paiement des fiches de frais
                                 </a>
                             </li>
-                            <li 
-                            <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc=deconnexion&action=demandeDeconnexion"style="color:red">
+                            <li <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=deconnexion&action=demandeDeconnexion" style="color: #2a6f97;">
                                     <span class="glyphicon glyphicon-log-out"></span>
                                     Déconnexion
                                 </a>
@@ -81,3 +80,4 @@
                 </h1>
                 <?php
             }
+?>

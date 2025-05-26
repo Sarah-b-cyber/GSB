@@ -132,11 +132,11 @@
                 $date = $unFraisHorsForfait['date'];
                 $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
                 $montant = $unFraisHorsForfait['montant'];
-                $unIdFrais = $unFraisHorsForfait['id'];
+                $idFrais = $unFraisHorsForfait['id'];
                 ?>
 
                 <tr>
-                <form method="post" action="index.php?uc=validerFicheFrais&action=majHorsForfait"
+                <form method="post" action="index.php?uc=validerFrais&action=majHorsForfait"
                       role="form">
                     <input name="lstMois" type="hidden" id="lstMois" class="form-control" value="<?php echo $moisASelectionner ?>">
                     <input name="lstVisiteurs" type="hidden" id="lstVisiteurs" class="form-control" value="<?php echo $visiteurASelectionner ?>">
@@ -160,7 +160,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <input class="form-control" name="montant" type="text" maxlength="45" value="<?php echo $montant ?>">
-                                <input class="form-control" name="unIdFrais" type="hidden" maxlength="45" value="<?php echo $unIdFrais ?>">
+                                <input class="form-control" name="idfrais" type="hidden" maxlength="45" value="<?php echo $idFrais ?>">
                             </div>
                         </div>
                     </td>
@@ -177,7 +177,7 @@
             ?>
         </table>
     </div>
-    <form method="post"  action="index.php?uc=validerFicheFrais&action=validerMontant"
+    <form method="post"  action="index.php?uc=validerFrais&action=validerMontant"
           role="form">
         <div class="col-md-4">
             <label for="nbJustificatif"> Nombre de justificatifs </label>

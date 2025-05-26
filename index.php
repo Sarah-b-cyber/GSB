@@ -52,5 +52,8 @@ case 'etatFrais':
 case 'deconnexion':
     include 'controleurs/c_deconnexion.php';
     break;
+case 'suivrePaiement':
+    include 'controleurs/c_suivrePaiement.php';
+    break;
 }
 require 'vues/v_pied.php';
