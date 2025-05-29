@@ -18,7 +18,7 @@
 <div class="row">
     <div class="col-md-6">
         <h3>Sélectionner un visiteur :</h3>
-        <form action="index.php?uc=validerFrais&action=validerFicheFrais" method="post" role="form">
+        <form action="index.php?uc=validerFrais&action=gererfichefrais" method="post" role="form">
             <div class="form-group">
                 <label for="lstVisiteurs" accesskey="n">Visiteur :</label>
                 <select id="lstVisiteurs" name="lstVisiteurs" class="form-control">
@@ -66,11 +66,64 @@
                 </select>
             </div>
             </div> 
-            <input id="ok" type="submit" value="Valider" class="btn btn-success" 
-                   role="button">
-        </form>
+            <input name="ok" type="submit" value="Valider" class="btn btn-success" role="button">
+            <input name="visteurrestant" type="submit" value="Voir fiches restantes" class="btn btn-success" role="button"/>
+ 
+       <!-- </form>
+        <div id="popupVA" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3);">
+    <div style="background:white; padding:20px; width:300px; margin:100px auto; border:1px solid #ccc;">
+        <h4>Visiteurs avec fiche VA</h4>
+        <ul>
+            <?php foreach ($visiteursVA as $visiteur): ?>
+                <li><?php echo htmlspecialchars($visiteur['nom'] . ' ' . $visiteur['prenom']); ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <button onclick="document.getElementById('popupVA').style.display='none'">Fermer</button>
+    </div>
+</div>
+
+<script>
+window.onload = function() {
+    document.getElementById('popupVA').style.display = 'block';
+};
+</script>
+
+  Popup simple sans Bootstrap -->
+<!--<div id="popupVA" style="
+    display:none;
+    position:fixed;
+    top:0; left:0; width:100vw; height:100vh;
+    background:rgba(0,0,0,0.4);
+    z-index:1000;
+">
+    <div style="
+        background:#fff;
+        border-radius:10px;
+        box-shadow:0 4px 16px rgba(0,0,0,0.3);
+        padding:30px 40px;
+        max-width:400px;
+        margin:10vh auto 0 auto;
+        position:relative;
+        top:10vh;
+    ">
+        <h4 style="margin-top:0;">Visiteurs avec fiche VA</h4>
+        <ul>
+            <?php foreach ($visiteursVA as $visiteur): ?>
+                <li><?php echo htmlspecialchars($visiteur['nom'] . ' ' . $visiteur['prenom']); ?></li>
+            <?php endforeach; ?>
+        </ul>
+        <button style="
+            background:#007bff; color:#fff; border:none; border-radius:5px;
+            padding:8px 16px; margin-top:15px; cursor:pointer;
+        " onclick="document.getElementById('popupVA').style.display='none'">Fermer</button>
+    </div>
+</div>
+<script>
+window.onload = function() {
+    document.getElementById('popupVA').style.display = 'block';
+};-->
+</script>
 
 
 
 
-    

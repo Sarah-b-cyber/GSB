@@ -15,7 +15,7 @@
  */
 ?>
 <h2> Valider la fiche de frais</h2>
-    <div class="row">
+    <!--<div class="row">
         <div class="col-md-4">
             <label for="lstVisiteurs" accesskey="n">Sélectionner un visiteur :</label>
             <div class="form-group">
@@ -74,7 +74,7 @@
             </div>
 
         </div>
-    </div>
+    </div>-->
 
     <form method="post"  action="index.php?uc=validerFrais&action=MajFraisForfait"
     role="form">

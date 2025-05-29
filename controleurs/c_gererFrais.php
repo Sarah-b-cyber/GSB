@@ -51,17 +51,18 @@ case 'validerCreationFrais':
     $dateFrais = filter_input(INPUT_POST, 'dateFrais', FILTER_SANITIZE_URL);
     $libelle = filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_URL);
     $montant = filter_input(INPUT_POST, 'montant', FILTER_VALIDATE_FLOAT);
-    var_dump($montant);
-    valideInfosFrais($dateFrais, $libelle, $montant);
+    $modePaiement = filter_input(INPUT_POST, 'modePaiement', FILTER_SANITIZE_SPECIAL_CHARS);
+    valideInfosFrais($dateFrais, $libelle, $montant, $modePaiement);
     if (nbErreurs() != 0) {
         include 'vues/v_erreurs.php';
     } else {
-        $pdo->creeNouveauFraisHorsForfait(
+        $pdo->creeNouveauFraisHorsForfaitV(
             $idVisiteur,
             $mois,
             $libelle,
             $dateFrais,
-            $montant
+            $montant,
+            $modePaiement
         );
     }
     break;

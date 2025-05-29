@@ -55,5 +55,8 @@ case 'deconnexion':
 case 'suivrePaiement':
     include 'controleurs/c_suivrePaiement.php';
     break;
+case 'ficheMois':
+    include 'controleurs/c_ficheMois.php';
+    break;
 }
 require 'vues/v_pied.php';

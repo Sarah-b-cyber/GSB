@@ -28,8 +28,9 @@
                     <?php
                     foreach ($lesMois as $unMois) {
                         $mois = $unMois['mois'];
-                        $numAnnee = $unMois['numAnnee'];
-                        $numMois = $unMois['numMois'];
+                        $mois = $unMois['mois'];
+                        $numAnnee = substr($mois, 0, 4);
+                        $numMois = substr($mois, 4, 2);
                         if ($mois == $moisASelectionner) {
                             ?>
                             <option selected value="<?php echo $mois ?>">

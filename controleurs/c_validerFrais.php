@@ -30,14 +30,26 @@
  $lesMois = getDerniers12Mois($mois);
  $visiteurASelectionner = $idVisiteur;
  $moisASelectionner = $leMois;
+ $visiteursVA = $pdo->getNomVisiteurVA();
 
  switch ($action){
-    case 'selectionnerVisiteur':
-        $lesCles = array_keys($lesVisiteurs);
+    case 'gererfichefrais':
+        /*$lesCles = array_keys($lesVisiteurs);
         $visiteursASelectionner = $lesCles[0];
         include 'vues/v_listeVisiteur.php';
-        break;
-        
+        break;*/
+        include 'vues/v_listeVisiteur.php';
+        $afficherPopupVA = true;
+    if (isset($_POST['ok'])){
+        $nbJustificatifs = $pdo->getNbjustificatifs($idVisiteur, $leMois);
+         $lesCles = array_keys($lesVisiteurs);
+        $visiteursASelectionner = $lesCles[0];
+        include'vues/v_validerFicheFrais.php';
+        }elseif (isset($_POST['visteurrestant'])){
+        $visiteursRestants = $pdo->getDetailsFichesFraisCL();
+        include 'vues/v_visiteurrestant.php';
+         }
+          break;
 
     case 'validerFicheFrais':
         if(empty($lesFraisForfait) && (empty($lesFraisHorsForfait))){
@@ -68,6 +80,7 @@
 
    case 'majHorsForfait':
          $nbJustificatifs = $pdo->getNbjustificatifs($idVisiteur, $leMois);
+         
         if (isset($_POST['corrigerFHF'])){
 
             $pdo->majFraisHorsForfait($idVisiteur, $leMois, $libelle, $date, $montant, $idFrais);
@@ -106,6 +119,7 @@
             $totalFHF = [0][0];
             var_dump($totalFF, $totalFHF);
             $total = $totalFF + $totalFHF;
+            
 
             $pdo->totalValide($idVisiteur, $leMois, $total);
             

@@ -44,6 +44,14 @@ class PdoGsb
     private static $mdp = '';
     private static $monPdo;
     private static $monPdoGsb = null;
+    
+    /*private static $serveur = 'mysql:host=db5017915252.hosting-data.io';
+    private static $bdd = 'dbs14262895';
+    private static $user = 'dbu755842';
+    private static $mdp = 'BenizriSarah1234';
+    private static $monPdo;
+    private static $monPdoGsb = null;*/
+
 
     /**
      * Constructeur privé, crée l'instance de PDO qui sera sollicitée
@@ -90,20 +98,37 @@ class PdoGsb
      *
      * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
      */
-    public function getInfosVisiteur($login, $mdp)
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
-            . 'FROM visiteur '
-            . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
-        );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch();
+    public function getInfosVisiteur($login, $mdp) {
+    $requetePrepare = PdoGsb::$monPdo->prepare(
+        'SELECT id, nom, prenom, mdp FROM visiteur WHERE login = :unLogin'
+    );
+    $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    $utilisateur = $requetePrepare->fetch(PDO::FETCH_ASSOC);
+
+    if ($utilisateur && password_verify($mdp, $utilisateur['mdp'])) {
+        unset($utilisateur['mdp']);
+        return $utilisateur;
     }
 
+    return false;
+}
+
+public function getInfosComptable($login, $mdp) {
+    $requetePrepare = PdoGsb::$monPdo->prepare(
+        'SELECT id, nom, prenom, mdp FROM comptable WHERE login = :unLogin'
+    );
+    $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    $comptable = $requetePrepare->fetch(PDO::FETCH_ASSOC);
+
+    if ($comptable && password_verify($mdp, $comptable['mdp'])) {
+        unset($comptable['mdp']);
+        return $comptable;
+    }
+
+    return false;
+}
     /**
      * Retourne la liste des  visiteurs
      *
@@ -125,29 +150,6 @@ class PdoGsb
         return $requetePrepare->fetchAll();
     }
 
-
-    /**
-     * Retourne les informations d'un comptable
-     *
-     * @param String $login Login du comptable
-     * @param String $mdp   Mot de passe du comptable
-     *
-     * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
-     */
-    public function getInfosComptable($login, $mdp)
-    {
-        $requetePrepare = PdoGsb::$monPdo->prepare(
-            'SELECT comptable.id AS id, comptable.nom AS nom, '
-            . 'comptable.prenom AS prenom '
-            . 'FROM comptable '
-            . 'WHERE comptable.login = :unLogin AND comptable.mdp = :unMdp'
-        );
-        $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unMdp', $mdp, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch();
-    
-    }
 
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
@@ -198,7 +200,7 @@ class PdoGsb
         $requetePrepare->bindParam(':unMois', $leMois, PDO::PARAM_STR);
         $requetePrepare->execute();
         $laLigne = $requetePrepare->fetch();
-        return $laLigne['nb'];
+       return ($laLigne && isset($laLigne['nb'])) ? $laLigne['nb'] : 0;
     }
 
     /**
@@ -453,7 +455,7 @@ class PdoGsb
         $mois,
         $libelle,
         $date,
-        $montant
+        $montant,
     ) {
         $dateFr = dateFrancaisVersAnglais($date);
         $requetePrepare = PdoGSB::$monPdo->prepare(
@@ -474,7 +476,8 @@ class PdoGsb
     $mois,
     $libelle,
     $date,
-    $montant
+    $montant,
+    $modePaiement
 ) {
     // Vérifie si une fiche de frais existe déjà pour ce visiteur et ce mois
     $requeteVerif = PdoGSB::$monPdo->prepare(
@@ -500,13 +503,14 @@ class PdoGsb
     $dateFr = dateFrancaisVersAnglais($date);
     $requetePrepare = PdoGSB::$monPdo->prepare(
         'INSERT INTO lignefraishorsforfait
-         VALUES (null, :unIdVisiteur, :unMois, :unLibelle, :uneDateFr, :unMontant)'
+         VALUES (null, :unIdVisiteur, :unMois, :unLibelle, :uneDateFr, :unMontant, :unModePaiement)'
     );
     $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
     $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
     $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_STR);
     $requetePrepare->bindParam(':uneDateFr', $dateFr, PDO::PARAM_STR);
     $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
+    $requetePrepare->bindParam(':unModePaiement', $modePaiement, PDO::PARAM_STR);
     $requetePrepare->execute();
 }
 
@@ -725,4 +729,72 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    /**
+     * Calcule le nombre fiche de frais d'un visteur pour un mois
+     * @return l'id, le nom et le prénom 
+     */
+    public function getmoisFicheFrais($moisSelectionne) {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+        'SELECT COUNT(DISTINCT idVisiteur) AS nb_visiteurs
+            FROM fichefrais
+            WHERE mois = :mois'
+        );
+
+    $requetePrepare->bindParam(':mois', $moisSelectionne, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    $resultat = $requetePrepare->fetch();
+
+    return $resultat['nb_visiteurs'];
+
+     
+    }
+       /**
+     * Retourne le nom et prenom d'un visteur CL
+     * @return l'id, le nom et le prénom sous la forme d'un tableau associatif
+     */
+   public function getDetailsFichesFraisCL() {
+    $requete = PdoGsb::$monPdo->prepare(
+        'SELECT v.id AS id, v.nom AS nom, v.prenom AS prenom, 
+                f.mois AS mois, f.datemodif AS datemodif, 
+                f.montantvalide AS montantvalide
+         FROM visiteur v
+         JOIN fichefrais f ON v.id = f.idvisiteur
+         WHERE f.idetat = "CL"
+         ORDER BY v.nom, f.mois DESC'
+    );
+    $requete->execute();
+    return $requete->fetchAll(PDO::FETCH_ASSOC);
 }
+
+   /* public function hacherMdp() {
+    $requetePrepare = PdoGSB::$monPdo->prepare(
+        'SELECT id, mdp FROM comptable'
+    );
+    $requetePrepare->execute();
+    $utilisateurs = $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($utilisateurs as $utilisateur) {
+        $id = $utilisateur['id'];
+        $mdp = $utilisateur['mdp'];
+
+        // Hasher sans condition
+        $hash = password_hash($mdp, PASSWORD_DEFAULT);
+
+        // Mise à jour en base
+        $update = PdoGSB::$monPdo->prepare(
+            'UPDATE comptable SET mdp = :hash WHERE id = :id'
+        );
+        $update->execute([
+            'hash' => $hash,
+            'id' => $id
+        ]);
+
+        echo "Mot de passe hashé pour l'utilisateur ID $id<br>";
+    }
+}*/
+
+
+
+}
+
+

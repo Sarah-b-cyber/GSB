@@ -70,6 +70,14 @@
                     <input type="text" id="txtMontantHF" name="montant" 
                            class="form-control" value="">
                 </div>
+            </div> 
+            <div class="form-group"  method="post">
+                <label for="modePaiement">Mode de paiement :</label>
+            <select name="modePaiement" id="modePaiement" required>
+             <option value="cb">Carte bancaire</option>
+            <option value="cheque">Chèque</option>
+        </select>
+
             </div>
             <button class="btn btn-success" type="submit">Ajouter</button>
             <button class="btn btn-danger" type="reset">Effacer</button>
