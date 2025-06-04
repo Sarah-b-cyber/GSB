@@ -58,5 +58,9 @@ case 'suivrePaiement':
 case 'ficheMois':
     include 'controleurs/c_ficheMois.php';
     break;
+
+case 'mdpreset':
+    include 'controleurs/c_mdpreset.php';
+    break;    
 }
 require 'vues/v_pied.php';

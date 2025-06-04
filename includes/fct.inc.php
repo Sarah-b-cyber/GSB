@@ -326,3 +326,41 @@ function nbErreurs()
     }
 }
 
+
+/**
+ * Vérifie si le mot de passe respecte les critères de sécurité
+ *
+ * - Au moins 8 caractères
+ * - Au moins 1 caractère spécial
+ * - Au moins 1 majuscule
+ * - Au moins 1 chiffre
+ *
+ * @param String $password Le mot de passe à vérifier
+ *
+ * @return Boolean vrai si le mot de passe est valide, faux sinon
+ */
+
+function verifPassword($mdp) {
+    // Longueur minimale
+    if (strlen($mdp) < 8) {
+        return false;
+    }
+
+    // Au moins 1 caractère spécial
+    if (!preg_match('/[\W_]/', $mdp)) {
+        return false;
+    }
+
+    // Au moins 1 majuscule
+    if (!preg_match('/[A-Z]/', $mdp)) {
+        return false;
+    }
+
+    // Au moins 1 chiffre
+    if (!preg_match('/[0-9]/', $mdp)) {
+        return false;
+    }
+
+    return true;
+}
+

@@ -766,6 +766,44 @@ public function getInfosComptable($login, $mdp) {
     return $requete->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/**
+ * Retourne le plus gros score de remboursement pour un mois donné
+ *
+ * @param String $moisSelectionne Mois sous la forme aaaamm
+ * @return float Le montant maximum validé pour ce mois
+ */
+public function getMaxRemboursementPourMois($moisSelectionne)
+{
+    $requetePrepare = PdoGsb::$monPdo->prepare(
+        'SELECT MAX(montantvalide) AS max_remboursement
+         FROM fichefrais
+         WHERE mois = :mois'
+    );
+    $requetePrepare->bindParam(':mois', $moisSelectionne, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    $resultat = $requetePrepare->fetch();
+    return $resultat && isset($resultat['max_remboursement']) ? (float)$resultat['max_remboursement'] : 0;
+}
+
+
+/**
+ * Retourne le montant total validé pour un mois donné
+ *
+ * @param String $moisSelectionne Mois sous la forme aaaamm
+ * @return float Le montant total validé pour ce mois
+ */
+public function getTotalValidePourMois($moisSelectionne)
+{
+    $requetePrepare = PdoGsb::$monPdo->prepare(
+        'SELECT SUM(montantvalide) AS total_valide
+         FROM fichefrais
+         WHERE mois = :mois'
+    );
+    $requetePrepare->bindParam(':mois', $moisSelectionne, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    $resultat = $requetePrepare->fetch();
+    return $resultat && isset($resultat['total_valide']) ? (float)$resultat['total_valide'] : 0;
+}
    /* public function hacherMdp() {
     $requetePrepare = PdoGSB::$monPdo->prepare(
         'SELECT id, mdp FROM comptable'
@@ -794,7 +832,55 @@ public function getInfosComptable($login, $mdp) {
 }*/
 
 
-
+/**
+ * Met à jour le mot de passe hashé d'un visiteur
+ *
+ * @param string $login   Le login du visiteur
+ * @param string $mdpHash Le nouveau mot de passe hashé
+ * @return void
+ */
+public function majMdpVisiteur($login, $mdpHash)
+{
+    $requetePrepare = PdoGsb::$monPdo->prepare(
+        'UPDATE visiteur SET mdp = :mdp WHERE login = :login'
+    );
+    $requetePrepare->bindParam(':mdp', $mdpHash, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':login', $login, PDO::PARAM_STR);
+    $requetePrepare->execute();
 }
 
+/**
+ * Met à jour le mot de passe hashé d'un comptable
+ *
+ * @param string $login   Le login du comptable
+ * @param string $mdpHash Le nouveau mot de passe hashé
+ * @return void
+ */
+public function majMdpComptable($login, $mdpHash)
+{
+    $requetePrepare = PdoGsb::$monPdo->prepare(
+        'UPDATE comptable SET mdp = :mdp WHERE login = :login'
+    );
+    $requetePrepare->bindParam(':mdp', $mdpHash, PDO::PARAM_STR);
+    $requetePrepare->bindParam(':login', $login, PDO::PARAM_STR);
+    $requetePrepare->execute();
+}
 
+public function getInfosVisiteurById($id) {
+    $requetePrepare = self::$monPdo->prepare(
+        'SELECT login FROM visiteur WHERE id = :id'
+    );
+    $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    return $requetePrepare->fetch(PDO::FETCH_ASSOC);
+}
+
+public function getInfosComptableById($id) {
+    $requetePrepare = self::$monPdo->prepare(
+        'SELECT login FROM comptable WHERE id = :id'
+    );
+    $requetePrepare->bindParam(':id', $id, PDO::PARAM_STR);
+    $requetePrepare->execute();
+    return $requetePrepare->fetch(PDO::FETCH_ASSOC);
+}
+}

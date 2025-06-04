@@ -1,3 +1,4 @@
 <?php
-$hash = password_hash('sb1234', PASSWORD_DEFAULT);
+$motDePasseClair = '19122004Sb!';
+$hash = password_hash($motDePasseClair, PASSWORD_DEFAULT);
 echo $hash;

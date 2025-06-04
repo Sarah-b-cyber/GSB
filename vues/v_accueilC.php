@@ -16,7 +16,7 @@
                 </h3>
             </div>
             <div class="panel-body">
-                <div class="row">
+                <div class="row" style="display: flex; justify-content: center;">
                     <div class="col-xs-12 col-md-12">
                         <a href="index.php?uc=validerFrais&action=gererfichefrais"
                            class="btn btn-success btn-lg" role="button" style="background-color: #2a6f97; color: white; border-color: #2a6f97;">
@@ -29,7 +29,11 @@
                         <a href="index.php?uc=ficheMois&action=selectionnerMois"
                            class="btn btn-success btn-lg" role="button" style="background-color: #2a6f97; color: white; border-color: #2a6f97;">
                             <span class="glyphicon glyphicon-pencil"></span>
-                            <br>Voir les fiches de frais pour un mois précis</a>
+                            <br>Voir les fiches de frais /mois</a>
+                        <a href="index.php?uc=statistiques&action=selectionnerMois"
+                        class="btn btn-success btn-lg" role="button" style="background-color: #468faf; color: white; border-color: #468faf;">
+                               <span class="glyphicon glyphicon-pencil"></span>
+                            <br>Voir statistiques</a>
                     </div>
                 </div>
             </div>
